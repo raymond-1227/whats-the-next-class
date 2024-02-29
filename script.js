@@ -69,7 +69,7 @@ function determineMessage() {
     let nextDayOrWeek = adjustedWeekday === "friday" || adjustedWeekday === "saturday" ? "next week" : "tomorrow";
     message = `There are no classes for now\nIt was previously ${previousClass}\nThe next class is ${tomorrowClasses[0] || "None"} (${nextDayOrWeek})`;
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
-    message = `You're currently in ${currentClass}.\nThe next class is ${nextClass}`;
+    message = `You're currently in ${currentClass}\nThe next class is ${nextClass}`;
   } else if (currentClass === lastClassToday) {
     let nextDayOrWeek = adjustedWeekday === "friday" ? "next week" : "tomorrow";
     message = `You're currently in the ${lastClassToday}\nThere is no more class for today\nThe next class is ${tomorrowClasses[0] || "None"} (${nextDayOrWeek})`;
