@@ -4,11 +4,11 @@ const regularDaySchedule = ["08:00", "08:50", "09:10", "10:00", "10:10", "11:00"
 const shortDaySchedule = ["08:00", "08:50", "09:10", "10:00", "10:10", "11:00", "11:10", "12:00", "13:00", "13:50", "14:00", "14:50", "15:00", "15:50"];
 
 const classTable = {
-  monday: ["歷史", "數學A", "選修物理II", "國語文", "英語文", "問題解決", "問題解決", "國文/數學"],
-  tuesday: ["體育", "充實補強", "選修化學II", "數學A", "歷史", "英語文", "各類文學選讀", "英文/物理"],
-  wednesday: ["歷史", "化學探究B", "化學探究B", "國語文", "團體活動", "團體活動", "團體活動"],
-  thursday: ["國語文", "英語文", "數學A", "自主學習", "體育", "各類文學選讀", "選修化學II", "化學"],
-  friday: ["數學A", "健康與護理", "選修物理II", "全民國防教育", "國語文", "英語文", "音樂"],
+  monday: ["地球科學", "數學", "物理", "物理", "體育", "英文", "暫無", "暫無"],
+  tuesday: ["英文寫作", "化學", "化學", "數學", "生物", "國文", "暫無", "暫無"],
+  wednesday: ["數學", "物理", "物理", "英文", "國文", "生物", "暫無"],
+  thursday: ["化學", "化學", "英文", "數學", "國文", "英文寫作", "暫無", "暫無"],
+  friday: ["生物", "地球科學", "數學", "體育", "國文", "英文", "暫無"],
 };
 
 // Get current day and time
@@ -19,8 +19,9 @@ const currentWeek = Math.ceil(now.getDate() / 7);
 
 // Update the 8th class for Monday and Tuesday
 const isOddWeek = currentWeek % 2 !== 0;
-classTable.monday[7] = isOddWeek ? "國文" : "數學";
-classTable.tuesday[7] = isOddWeek ? "物理" : "英文";
+// As of summer break it's not needed for now
+// classTable.monday[7] = isOddWeek ? "國文" : "數學";
+// classTable.tuesday[7] = isOddWeek ? "物理" : "英文";
 
 // Function to get today's schedule based on the weekday
 function getTodaySchedule(weekday) {
@@ -51,30 +52,34 @@ function determineMessage() {
 
   // Determine previous, current, and next class
   for (let i = 0; i < todaySchedule.length - 1; i += 2) {
-    let classIndex = i / 2;
-    if (currentTime >= todaySchedule[i] && currentTime < todaySchedule[i + 1]) {
-      currentClass = todayClasses[classIndex];
-      nextClass = todayClasses[classIndex + 1] || "None";
-      previousClass = classIndex > 0 ? todayClasses[classIndex - 1] : "None";
-      break;
-    } else if (currentTime >= todaySchedule[i + 1] && currentTime < (todaySchedule[i + 2] || "24:00")) {
-      previousClass = todayClasses[classIndex];
-      nextClass = todayClasses[classIndex + 1] || "None";
-      break;
-    }
+      let classIndex = i / 2;
+      if (currentTime >= todaySchedule[i] && currentTime < todaySchedule[i + 1]) {
+          currentClass = todayClasses[classIndex];
+          nextClass = todayClasses[classIndex + 1] || "None";
+          previousClass = classIndex > 0 ? todayClasses[classIndex - 1] : "None";
+          break;
+      } else if (currentTime >= todaySchedule[i + 1] && currentTime < (todaySchedule[i + 2] || "24:00")) {
+          previousClass = todayClasses[classIndex];
+          nextClass = todayClasses[classIndex + 1] || "None";
+          break;
+      }
   }
 
-  // Adjust message based on the scenario
-  if (isBeforeSchool || isAfterSchool) {
-    let nextDayOrWeek = adjustedWeekday === "friday" || adjustedWeekday === "saturday" ? "next week" : "tomorrow";
-    message = `There are no classes for now\nIt was previously ${previousClass}\nThe next class is ${tomorrowClasses[0] || "None"} (${nextDayOrWeek})`;
+  // Handle after school on Friday to before the first class on Monday
+  if ((originalWeekday === "friday" && isAfterSchool) || originalWeekday === "saturday" || (originalWeekday === "sunday") || (originalWeekday === "monday" && isBeforeSchool)) {
+      let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
+      let firstClassMonday = classTable["monday"][0];
+      message = `Classes are done for the week.\nLast class was: ${lastClassFriday}.\nNext class is: ${firstClassMonday} on Monday.`;
+  } else if (isBeforeSchool || isAfterSchool) {
+      let nextDayOrWeek = adjustedWeekday === "friday" || adjustedWeekday === "saturday" ? "next week" : "tomorrow";
+      message = `There are no classes for now.\nIt was previously ${previousClass}.\nThe next class is ${tomorrowClasses[0] || "None"} (${nextDayOrWeek}).`;
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
-    message = `You're currently in ${currentClass}\nThe next class is ${nextClass}`;
+      message = `You're currently in ${currentClass}.\nThe next class is ${nextClass}.`;
   } else if (currentClass === lastClassToday) {
-    let nextDayOrWeek = adjustedWeekday === "friday" ? "next week" : "tomorrow";
-    message = `You're currently in the ${lastClassToday}\nThere is no more class for today\nThe next class is ${tomorrowClasses[0] || "None"} (${nextDayOrWeek})`;
+      let nextDayOrWeek = adjustedWeekday === "friday" ? "next week" : "tomorrow";
+      message = `You're currently in the last class of the day: ${lastClassToday}.\nThere is no more class for today.\nThe next class is ${tomorrowClasses[0] || "None"} (${nextDayOrWeek}).`;
   } else {
-    message = `You're currently on break\nIt was previously ${previousClass}\nThe next class is ${nextClass}`;
+      message = `You're currently on break.\nIt was previously ${previousClass}.\nThe next class is ${nextClass}.`;
   }
 
   // Update the HTML elements with the message
