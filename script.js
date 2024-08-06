@@ -1,7 +1,7 @@
 // Define class timings and class names
 const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 const regularDaySchedule = ["08:00", "08:50", "09:10", "10:00", "10:10", "11:00", "11:10", "12:00", "13:00", "13:50", "14:00", "14:50", "15:00", "15:50", "15:55", "16:45"];
-const shortDaySchedule = ["08:00", "08:50", "09:10", "10:00", "10:10", "11:00", "11:10", "12:00", "13:00", "13:50", "14:00", "14:50", "15:00", "15:50"];
+const shortDaySchedule = regularDaySchedule.slice(0, -2)
 
 const classTable = {
   monday: ["地球科學", "數學", "物理", "物理", "體育", "英文", "暫無", "暫無"],
