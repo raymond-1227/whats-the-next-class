@@ -50,10 +50,6 @@ function getTodaySchedule(weekday) {
   return weekday === "wednesday" || weekday === "friday" ? shortDaySchedule : regularDaySchedule;
 }
 
-// Determine today's schedule logic
-// if the current time is between 00:00 and the first class of the day, then adjust the weekday to the previous day
-
-
 // Determine today's schedule and adjust for the day if needed
 let adjustedWeekday = currentWeekday;
 let todaySchedule = getTodaySchedule(currentWeekday);
@@ -74,6 +70,7 @@ function determineMessage() {
   let lastClassToday = todayClasses[lastClassIndex];
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
+
 
   // Determine previous, current, and next class
   for (let i = 0; i < todaySchedule.length - 1; i += 2) {
@@ -98,34 +95,20 @@ function determineMessage() {
     (currentWeekday === "monday" && isBeforeSchool)
   ) {
     let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
-    let firstClassMonday = classTable["monday"][0];
-    message = `Classes are done for the week.\nLast class was: ${lastClassFriday}.\nNext class is: ${firstClassMonday} on Monday.`;
+    message = `Classes are done for the week.\nLast class was: ${lastClassFriday}\nNext class is: ${tomorrowFirstClass} on Monday.`;
   } else if (isBeforeSchool || isAfterSchool) {
-    let nextDayOrWeek = adjustedWeekday === "friday" || adjustedWeekday === "saturday" ? "next week" : "tomorrow";
-    message = `There are no classes for now.\nIt was previously ${previousClass}.\nThe next class is ${
-      tomorrowClasses[0] || "None"
-    } (${nextDayOrWeek}).`;
+    message = `There are no classes for now.\nIt was previously ${previousClass}.\nThe next class is ${tomorrowFirstClass}`;
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
     message = `You're currently in ${currentClass}.\nThe next class is ${nextClass}.`;
   } else if (currentClass === lastClassToday) {
-    let nextDayOrWeek = adjustedWeekday === "friday" ? "next week" : "tomorrow";
-    message = `You're currently in the last class of the day: ${lastClassToday}.\nThere is no more class for today.\nThe next class is ${
-      tomorrowClasses[0] || "None"
-    } (${nextDayOrWeek}).`;
+    message = `You're currently in the last class of the day: ${lastClassToday}.\nThere is no more class for today.\nThe next class is ${tomorrowFirstClass}`;
   } else {
     message = `You're currently on break.\nIt was previously ${previousClass}.\nThe next class is ${nextClass}.`;
   }
 
   // Update the HTML elements with the message
   document.getElementById("classMessage").innerText = message;
-}
-
-// Function to get the next weekday
-function getNextWeekday(weekday, time, schedule) {
-  if (time < schedule[0] && time >= "00:00") {
-    return weekday; // Return the same day if it's early morning
-  }
-  return weekdays[(weekdays.indexOf(weekday) + 1) % 7]; // Return the next weekday otherwise
+  console.log(message);
 }
 
 determineMessage();
