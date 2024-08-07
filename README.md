@@ -7,7 +7,14 @@ I made this project since I have been really annoyed by the school class table w
 This is just one thing, the main reason is still the fact that class table completely changes on every new semester, meaning I would have to look at the horribly-designed school class table, especially that the text would be around 1px on phone since... like I said, they never updated the design, therefore RWD is never implemented. Also it takes too much time to find the specific class for the day, so instead, I made my own version that only displays your current/previous and next class at once.
 
 ## How To Use
-If you have a different class table to import with, you can try modifying the class names for each day **in the exact order**, and if your class has a different time or even longer periods, it's on your own now, good luck adding support to your class table...
+### Import your Class Table
+Go to `script.js` and modify the class names for each day **in the exact order**.
+### Import your Time Schedule
+Go to `script.js` and modify the time for each day **in the exact order**, including the start and the end of your class time. For example, if your class starts `08:00` and ends `08:50`, put them in the order like this:
+```js
+const timeSchedule = [ 08:00, 08:50, 09:00, 09:50, "... etc" ]`
+```
 
 ## Future Plans
-- Multi language support
+- Multi language support (i18n)
+- Better schedule handling for users to modify for their own schedule easier
