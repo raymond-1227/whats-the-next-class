@@ -83,7 +83,7 @@ function determineMessage() {
     let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
     message = `本週課程已結束\n最後一節課是${lastClassFriday}\n下週第一節課是${tomorrowFirstClass}`;
   } else if (isBeforeSchool || isAfterSchool) {
-    message = `目前沒有課\n最後一節課是${previousClass}\n明天第一節課是${tomorrowFirstClass}`;
+    message = `目前沒有課\n最後一節課是${lastClassToday}\n明天第一節課是${tomorrowFirstClass}`;
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
     message = `現在上的是${currentClass}\n下一節課是${nextClass}`;
   } else if (currentClass === lastClassToday) {

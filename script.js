@@ -22,7 +22,7 @@ function getNextWorkingDay() {
   let nextDayIndex = now.getDay() + 1;
   // If it's Friday, Saturday, or Sunday, set nextDayIndex to Monday
   if (currentDayIndex >= 5 || currentDayIndex <= 0) {
-      nextDayIndex = 1; // Monday
+    nextDayIndex = 1; // Monday
   }
   return weekdays[nextDayIndex];
 }
@@ -61,8 +61,8 @@ if (currentTime >= "00:00" && currentTime < todaySchedule[0]) {
 // Functions to determine the message to display
 function determineMessage() {
   let todayClasses = classTable[currentWeekday] || [];
-  let tomorrowFirstClass = classTable[nextWeekday]?.[0] || [];
-  let message = "";
+  let nextFirstClass = classTable[nextWeekday]?.[0] || [];
+  let moreInfo = "";
   let previousClass = "None";
   let currentClass = "None";
   let nextClass = "None";
@@ -71,18 +71,17 @@ function determineMessage() {
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
 
-
   // Determine previous, current, and next class
   for (let i = 0; i < todaySchedule.length - 1; i += 2) {
     let classIndex = i / 2;
     if (currentTime >= todaySchedule[i] && currentTime < todaySchedule[i + 1]) {
       currentClass = todayClasses[classIndex];
-      nextClass = todayClasses[classIndex + 1] || "None";
-      previousClass = classIndex > 0 ? todayClasses[classIndex - 1] : "None";
+      nextClass = todayClasses[classIndex + 1];
+      previousClass = todayClasses[classIndex - 1];
       break;
     } else if (currentTime >= todaySchedule[i + 1] && currentTime < (todaySchedule[i + 2] || "24:00")) {
       previousClass = todayClasses[classIndex];
-      nextClass = todayClasses[classIndex + 1] || "None";
+      nextClass = todayClasses[classIndex + 1];
       break;
     }
   }
@@ -95,20 +94,22 @@ function determineMessage() {
     (currentWeekday === "monday" && isBeforeSchool)
   ) {
     let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
-    message = `Classes are done for the week\nThe last class was ${lastClassFriday}\nThe next class is ${tomorrowFirstClass}`;
+    currentStatus = "Classes are done for the week";
+    moreInfo = `The last class was ${lastClassFriday}\nThe next class is ${nextFirstClass}`;
   } else if (isBeforeSchool || isAfterSchool) {
-    message = `There are no classes for now\nIt was previously ${previousClass}\nThe next class is ${tomorrowFirstClass}`;
+    currentStatus = "There are no classes for now";
+    moreInfo = `It was previously ${lastClassToday}\nThe next class is ${nextFirstClass}`;
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
-    message = `You're currently in ${currentClass}\nThe next class is ${nextClass}`;
-  } else if (currentClass === lastClassToday) {
-    message = `You're currently in the last class of the day ${lastClassToday}\nThere is no more class for today\nThe next class is ${tomorrowFirstClass}`;
+    currentStatus = `You're currently in ${currentClass}`;
+    moreInfo = `It was previously ${previousClass}\nThe next class is ${nextClass}`;
   } else {
-    message = `You're currently on break\nIt was previously ${previousClass}\nThe next class is ${nextClass}`;
+    currentStatus = "You're currently on break";
+    moreInfo = `It was previously ${previousClass}\nThe next class is ${nextClass}`;
   }
 
   // Update the HTML elements with the message
-  document.getElementById("classMessage").innerText = message;
-  console.log(message);
+  document.getElementById("currentStatus").innerText = currentStatus;
+  document.getElementById("moreInfo").innerText = moreInfo;
 }
 
 determineMessage();
