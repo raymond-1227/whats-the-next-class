@@ -1,0 +1,36 @@
+{
+  "timeSchedule": [
+    "08:00",
+    "08:50",
+    "09:10",
+    "10:00",
+    "10:10",
+    "11:00",
+    "11:10",
+    "12:00",
+    "13:00",
+    "13:50",
+    "14:00",
+    "14:50",
+    "15:00",
+    "15:50",
+    "15:55",
+    "16:45"
+  ],
+  "classTable": {
+    "monday": ["Earth Science", "Math", "Physics", "Physics", "PE", "English", "None", "None"],
+    "tuesday": ["English Writing", "Chemistry", "Chemistry", "Math", "Biology", "Chinese", "None", "None"],
+    "wednesday": ["Math", "Physics", "Physics", "English", "Chinese", "Biology", "None"],
+    "thursday": ["Chemistry", "Chemistry", "English", "Math", "Chinese", "English Writing", "None", "None"],
+    "friday": ["Biology", "Earth Science", "Math", "PE", "Chinese", "English", "None"]
+  },
+  "messages": {
+    "doneForWeek": "Classes are done for the week",
+    "noClassesNow": "There are no classes for now",
+    "currentlyIn": "You're currently in {currentClass}",
+    "onBreak": "You're currently on break",
+    "lastClassWas": "The last class was {lastClass}",
+    "nextClassIs": "The next class is {nextClass}",
+    "previousClassWas": "It was previously {previousClass}"
+  }
+}

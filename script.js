@@ -1,83 +1,73 @@
-// Define class timings and class names
-const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-const regularDaySchedule = [
-  "08:00", "08:50", "09:10", "10:00", "10:10", "11:00", "11:10", "12:00", "13:00", "13:50", "14:00", "14:50", "15:00", "15:50", "15:55", "16:45"
-];
-const shortDaySchedule = regularDaySchedule.slice(0, -2);
+// Function to load JSON data
+function loadJSON(callback) {
+  var xobj = new XMLHttpRequest();
+  xobj.overrideMimeType("application/json");
+  xobj.open("GET", "data.json", true);
+  xobj.onreadystatechange = function () {
+    if (xobj.readyState == 4 && xobj.status == "200") {
+      callback(JSON.parse(xobj.responseText));
+    }
+  };
+  xobj.send(null);
+}
 
-const classTable = {
-  monday: ["地球科學", "數學", "物理", "物理", "體育", "英文", "暫無", "暫無"],
-  tuesday: ["英文寫作", "化學", "化學", "數學", "生物", "國文", "暫無", "暫無"],
-  wednesday: ["數學", "物理", "物理", "英文", "國文", "生物", "暫無"],
-  thursday: ["化學", "化學", "英文", "數學", "國文", "英文寫作", "暫無", "暫無"],
-  friday: ["生物", "地球科學", "數學", "體育", "國文", "英文", "暫無"],
-};
+// Hardcoded weekdays as they are only for internal time determination
+const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-// Get current time
-const now = new Date();
+// Function to initialize the content
+function initializeContent(data) {
+  const timeSchedule = data.timeSchedule;
+  const classTable = data.classTable;
+  const messages = data.messages;
 
-const currentWeekday = weekdays[now.getDay()];
-function getNextWorkingDay() {
-  const currentDayIndex = now.getDay();
-  let nextDayIndex = now.getDay() + 1;
-  // If it's Friday, Saturday, or Sunday, set nextDayIndex to Monday
+  const now = new Date();
+  const currentWeekday = weekdays[now.getDay()];
+  console.log(currentWeekday)
+  const nextWeekday = getNextWorkingDay(currentWeekday);
+  const currentTime = now.toTimeString().substring(0, 5);
+  const todaySchedule = getTodaySchedule(currentWeekday, timeSchedule); // Pass timeSchedule here
+console.log(timeSchedule)
+  determineMessage(classTable, messages, nextWeekday, currentTime, currentWeekday, todaySchedule);
+}
+
+// Function to get the next working day
+function getNextWorkingDay(currentWeekday) {
+  const currentDayIndex = weekdays.indexOf(currentWeekday);
+  let nextDayIndex = currentDayIndex + 1;
   if (currentDayIndex >= 5 || currentDayIndex <= 0) {
     nextDayIndex = 1; // Monday
   }
   return weekdays[nextDayIndex];
 }
-const nextWeekday = getNextWorkingDay(currentWeekday);
-
-const currentTime = now.toTimeString().substring(0, 5);
-
-function getWeek() {
-  var start = new Date(now.getFullYear(), 0, 0);
-  var diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
-  var oneDay = 1000 * 60 * 60 * 24;
-  var day = Math.floor(diff / oneDay);
-  return Math.ceil(day / 7);
-}
-const currentWeek = getWeek();
-
-// Update the 8th class for Monday and Tuesday
-const isOddWeek = currentWeek % 2 !== 0;
-// As of summer break it's not needed for now
-// classTable.monday[7] = isOddWeek ? "國文" : "數學";
-// classTable.tuesday[7] = isOddWeek ? "物理" : "英文";
 
 // Function to get today's schedule based on the weekday
-function getTodaySchedule(weekday) {
-  return weekday === "wednesday" || weekday === "friday" ? shortDaySchedule : regularDaySchedule;
+function getTodaySchedule(currentWeekday, timeSchedule) {
+  const shortSchedule = timeSchedule.slice(0, -2);
+  return currentWeekday === "Wednesday" || currentWeekday === "Friday" ? shortSchedule : timeSchedule;
 }
 
-// Determine today's schedule and adjust for the day if needed
-let adjustedWeekday = currentWeekday;
-let todaySchedule = getTodaySchedule(currentWeekday);
-if (currentTime >= "00:00" && currentTime < todaySchedule[0]) {
-  adjustedWeekday = weekdays[(weekdays.indexOf(currentWeekday) - 1 + 7) % 7];
-  todaySchedule = getTodaySchedule(adjustedWeekday);
-}
-
-// Functions to determine the message to display
-function determineMessage() {
-  let todayClasses = classTable[currentWeekday] || [];
-  let nextFirstClass = classTable[nextWeekday]?.[0] || [];
+// Function to determine the message to display
+function determineMessage(classTable, messages, currentWeekday, nextWeekday, currentTime, todaySchedule) {
+  let todayClasses = classTable[currentWeekday.toLowerCase()] || [];
+  let nextFirstClass = classTable[nextWeekday.toLowerCase()]?.[0] || [];
+  let currentStatus = "";
   let moreInfo = "";
   let previousClass = "None";
   let currentClass = "None";
   let nextClass = "None";
   let lastClassIndex = todayClasses.length - 1;
   let lastClassToday = todayClasses[lastClassIndex];
+  let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
+  console.log(todaySchedule)
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
 
-  // Determine previous, current, and next class
   for (let i = 0; i < todaySchedule.length - 1; i += 2) {
     let classIndex = i / 2;
     if (currentTime >= todaySchedule[i] && currentTime < todaySchedule[i + 1]) {
       currentClass = todayClasses[classIndex];
       nextClass = todayClasses[classIndex + 1];
-      previousClass = todayClasses[classIndex - 1];
+      previousClass = todayClasses[classIndex - 1] || "None";
       break;
     } else if (currentTime >= todaySchedule[i + 1] && currentTime < (todaySchedule[i + 2] || "24:00")) {
       previousClass = todayClasses[classIndex];
@@ -86,30 +76,56 @@ function determineMessage() {
     }
   }
 
-  // Handle after school on Friday to before the first class on Monday
+  // Use template literals to insert variables into the strings
+  let currentClassText = `<span id="class-subject">${currentClass}</span>`;
+  let previousClassText = `<span id="class-subject">${previousClass}</span>`;
+  let nextClassText = `<span id="class-subject">${nextClass}</span>`;
+  let lastClassText = `<span id="class-subject">${lastClassToday}</span>`;
+  let lastClassFridayText = `<span id="class-subject">${lastClassFriday}</span>`;
+  let nextFirstClassText = `<span id="class-subject">${nextFirstClass}</span>`;
+
   if (
-    (currentWeekday === "friday" && isAfterSchool) ||
-    currentWeekday === "saturday" ||
-    currentWeekday === "sunday" ||
-    (currentWeekday === "monday" && isBeforeSchool)
+    (currentWeekday === "Friday" && isAfterSchool) ||
+    currentWeekday === "Saturday" ||
+    currentWeekday === "Sunday"
   ) {
-    let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
-    currentStatus = "Classes are done for the week";
-    moreInfo = `The last class was ${lastClassFriday}\nThe next class is ${nextFirstClass}`;
+    // Condition: It's Friday after school, Saturday, Sunday, or Monday before school
+    currentStatus = messages.doneForWeek;
+    moreInfo = `${messages.lastClassFridayWas.replace(
+      "{lastClassFriday}",
+      lastClassFridayText
+    )}</br>${messages.nextClassIs.replace("{nextClass}", nextFirstClassText)}`;
   } else if (isBeforeSchool || isAfterSchool) {
-    currentStatus = "There are no classes for now";
-    moreInfo = `It was previously ${lastClassToday}\nThe next class is ${nextFirstClass}`;
+    // Condition: Before school or after school
+    currentStatus = messages.noClassesNow;
+    moreInfo = `${messages.lastClassWas.replace("{lastClassToday}", lastClassText)}</br>${messages.nextClassIs.replace(
+      "{nextClass}",
+      nextFirstClassText
+    )}`;
+  } else if (previousClass == "None") {
+    // Condition: During the first class
+    currentStatus = messages.currentlyIn.replace("{currentClass}", currentClassText);
+    moreInfo = messages.nextClassIs.replace("{nextClass}", nextClassText);
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
-    currentStatus = `You're currently in ${currentClass}`;
-    moreInfo = `It was previously ${previousClass}\nThe next class is ${nextClass}`;
+    // Condition: During a class that is not the last class
+    currentStatus = messages.currentlyIn.replace("{currentClass}", currentClassText);
+    moreInfo = `${messages.previousClassWas.replace(
+      "{previousClass}",
+      previousClassText
+    )}</br>${messages.nextClassIs.replace("{nextClass}", nextClassText)}`;
   } else {
-    currentStatus = "You're currently on break";
-    moreInfo = `It was previously ${previousClass}\nThe next class is ${nextClass}`;
+    // Respond with on break status
+    currentStatus = messages.onBreak;
+    moreInfo = `${messages.previousClassWas.replace(
+      "{previousClass}",
+      previousClassText
+    )}</br>${messages.nextClassIs.replace("{nextClass}", nextClassText)}`;
   }
 
-  // Update the HTML elements with the message
-  document.getElementById("currentStatus").innerText = currentStatus;
-  document.getElementById("moreInfo").innerText = moreInfo;
+  // Use innerHTML to render the HTML tags properly
+  document.getElementById("currentStatus").innerHTML = currentStatus;
+  document.getElementById("moreInfo").innerHTML = moreInfo;
 }
 
-determineMessage();
+// Load the JSON and initialize the content
+loadJSON(initializeContent);

@@ -1,6 +1,0 @@
-{
-    "afterSchool": "There are no classes for now\nIt was previously ${previousClass}\nThe next class is ${tomorrowClasses[0] || \"None\"} (${nextDayOrWeek})",
-    "currentlyIn": "You're currently in ${currentClass}\nThe next class is ${nextClass}",
-    "lastClass": "You're currently in the ${lastClassToday}\nThere is no more class for today\nThe next class is ${tomorrowClasses[0] || \"None\"} (${nextDayOrWeek})",
-    "onBreak": "You're currently on break\nIt was previously ${previousClass}\nThe next class is ${nextClass}"
-}

@@ -1,6 +1,0 @@
-{
-    "afterSchool": "目前沒有課\nIt was previously ${previousClass}\nThe next class is ${tomorrowClasses[0] || \"None\"} (${nextDayOrWeek})",
-    "currentlyIn": "現在的課是${currentClass}\n下一節課是${nextClass}",
-    "lastClass": "現在的課是${lastClassToday}\n今天已經沒有下一節課了\n下一節課是${tomorrowClasses[0] || \"None\"} (${nextDayOrWeek})",
-    "onBreak": "現在是下課時間\n上一節課是${previousClass}\n下一節課是${nextClass}"
-}

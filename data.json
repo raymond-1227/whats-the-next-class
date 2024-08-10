@@ -1,0 +1,38 @@
+{
+  "timeSchedule": [
+    "08:00",
+    "08:50",
+    "09:10",
+    "10:00",
+    "10:10",
+    "11:00",
+    "11:10",
+    "12:00",
+    "13:00",
+    "13:50",
+    "14:00",
+    "14:50",
+    "15:00",
+    "15:50",
+    "15:55",
+    "16:45"
+  ],
+  "classTable": {
+    "monday": ["地球科學", "數學", "物理", "物理", "體育", "英文", "暫無", "暫無"],
+    "tuesday": ["英文寫作", "化學", "化學", "數學", "生物", "國文", "暫無", "暫無"],
+    "wednesday": ["數學", "物理", "物理", "英文", "國文", "生物", "暫無"],
+    "thursday": ["化學", "化學", "英文", "數學", "國文", "英文寫作", "暫無", "暫無"],
+    "friday": ["生物", "地球科學", "數學", "體育", "國文", "英文", "暫無"]
+  },
+  "messages": {
+    "doneForWeek": "本週課程已結束",
+    "noClassesNow": "目前沒有課程",
+    "currentlyIn": "現在的課是 {currentClass}",
+    "onBreak": "現在是下課時間",
+    "lastClassWas": "最後一節課是 {lastClassToday}",
+    "lastClassFridayWas": "最後一節課是 {lastClassFriday}",
+    "nextClassTomorrowIs": "明天第一節課是 {nextFirstClass}",
+    "nextClassIs": "下一節課是 {nextClass}",
+    "previousClassWas": "上一節課是 {previousClass}"
+  }
+}

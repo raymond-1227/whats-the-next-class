@@ -17,8 +17,9 @@ body {
 
 .container {
   text-align: center;
-  background: #ffffff;
   padding: 2%;
+  background: #ffffff;
+  color: #5e5e5e;
   border-radius: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -27,7 +28,8 @@ body {
   margin-bottom: 10px;
   padding-left: 50px;
   padding-right: 50px;
-  background-color: #929292;
+  background-color: #5e5e5e;
+  color: #ffffff;
   border-radius: 30px;
 }
 
@@ -35,15 +37,7 @@ h2,
 h3 {
   margin: 0;
   padding: 10px;
-}
-
-h2 {
   font-size: 1.5em;
-  font-weight: 500;
-}
-
-h3 {
-  font-size: 1.2em;
   font-weight: 700;
 }
 
@@ -53,8 +47,8 @@ span {
 
 @media (prefers-color-scheme: dark) {
   body {
-    color: #eeeeee;
     background-color: #1c1c1c;
+    color: #eeeeee;
   }
   .container {
     background-color: #5e5e5e;
