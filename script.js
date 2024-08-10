@@ -22,12 +22,10 @@ function initializeContent(data) {
 
   const now = new Date();
   const currentWeekday = weekdays[now.getDay()];
-  console.log(currentWeekday)
   const nextWeekday = getNextWorkingDay(currentWeekday);
   const currentTime = now.toTimeString().substring(0, 5);
   const todaySchedule = getTodaySchedule(currentWeekday, timeSchedule); // Pass timeSchedule here
-console.log(timeSchedule)
-  determineMessage(classTable, messages, nextWeekday, currentTime, currentWeekday, todaySchedule);
+  determineMessage(classTable, messages, currentWeekday, nextWeekday, currentTime, todaySchedule);
 }
 
 // Function to get the next working day
@@ -58,7 +56,6 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
   let lastClassIndex = todayClasses.length - 1;
   let lastClassToday = todayClasses[lastClassIndex];
   let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
-  console.log(todaySchedule)
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
 
@@ -67,11 +64,15 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
     if (currentTime >= todaySchedule[i] && currentTime < todaySchedule[i + 1]) {
       currentClass = todayClasses[classIndex];
       nextClass = todayClasses[classIndex + 1];
-      previousClass = todayClasses[classIndex - 1] || "None";
+      previousClass = classIndex > 0 ? todayClasses[classIndex - 1] : "None";
       break;
     } else if (currentTime >= todaySchedule[i + 1] && currentTime < (todaySchedule[i + 2] || "24:00")) {
       previousClass = todayClasses[classIndex];
       nextClass = todayClasses[classIndex + 1];
+      break;
+    } else if (currentWeekday === "Monday" && isBeforeSchool) {
+      // If it's Monday and before school, set nextClass to the first class of the day
+      nextClass = todayClasses[0];
       break;
     }
   }
@@ -84,17 +85,20 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
   let lastClassFridayText = `<span id="class-subject">${lastClassFriday}</span>`;
   let nextFirstClassText = `<span id="class-subject">${nextFirstClass}</span>`;
 
-  if (
-    (currentWeekday === "Friday" && isAfterSchool) ||
-    currentWeekday === "Saturday" ||
-    currentWeekday === "Sunday"
-  ) {
-    // Condition: It's Friday after school, Saturday, Sunday, or Monday before school
+  if ((currentWeekday === "Friday" && isAfterSchool) || currentWeekday === "Saturday" || currentWeekday === "Sunday") {
+    // Condition: It's Friday after school, Saturday or Sunday
     currentStatus = messages.doneForWeek;
     moreInfo = `${messages.lastClassFridayWas.replace(
       "{lastClassFriday}",
       lastClassFridayText
     )}</br>${messages.nextClassIs.replace("{nextClass}", nextFirstClassText)}`;
+  } else if (currentWeekday === "Monday" && isBeforeSchool) {
+    // Condition: It's Monday before school
+    currentStatus = messages.noClassesNow;
+    moreInfo = `${messages.lastClassFridayWas.replace(
+      "{lastClassFriday}",
+      lastClassFridayText
+    )}</br>${messages.nextClassIs.replace("{nextClass}", nextClassText)}`;
   } else if (isBeforeSchool || isAfterSchool) {
     // Condition: Before school or after school
     currentStatus = messages.noClassesNow;
