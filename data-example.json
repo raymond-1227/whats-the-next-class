@@ -13,16 +13,14 @@
     "14:00",
     "14:50",
     "15:00",
-    "15:50",
-    "15:55",
-    "16:45"
+    "15:50"
   ],
   "classTable": {
-    "monday": ["Earth Science", "Math", "Physics", "Physics", "PE", "English", "None", "None"],
-    "tuesday": ["English Writing", "Chemistry", "Chemistry", "Math", "Biology", "Chinese", "None", "None"],
-    "wednesday": ["Math", "Physics", "Physics", "English", "Chinese", "Biology", "None"],
-    "thursday": ["Chemistry", "Chemistry", "English", "Math", "Chinese", "English Writing", "None", "None"],
-    "friday": ["Biology", "Earth Science", "Math", "PE", "Chinese", "English", "None"]
+    "monday": ["English", "Math", "Biology", "World History", "PE", "Spanish", "Art"],
+    "tuesday": ["Math", "Chemistry", "English", "Computer Science", "PE", "Spanish", "Study Hall"],
+    "wednesday": ["English", "Math", "Biology", "World History", "PE", "Art", "Study Hall"],
+    "thursday": ["Math", "Chemistry", "English", "Computer Science", "Spanish", "Art", "Study Hall"],
+    "friday": ["English", "Math", "Biology", "World History", "PE", "Spanish", "Art"]
   },
   "messages": {
     "doneForWeek": "Lessons are done for the week",
