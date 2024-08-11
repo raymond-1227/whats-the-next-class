@@ -12,7 +12,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100svh;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .container {
@@ -57,5 +58,12 @@ span {
   .currentStatus {
     background-color: #d5d5d5;
     color: #5e5e5e;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* This is for iOS Safari to render the webpage correctly */
+  body {
+    min-height: -webkit-fill-available;
   }
 }
