@@ -12,7 +12,7 @@ function loadJSON(callback) {
 }
 
 // Hardcoded weekdays as they are only for internal time determination
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 // Function to initialize the content
 function initializeContent(data) {
@@ -41,7 +41,7 @@ function getNextWorkingDay(currentWeekday) {
 // Function to get today's schedule based on the weekday
 function getTodaySchedule(currentWeekday, timeSchedule) {
   const shortSchedule = timeSchedule.slice(0, -2);
-  return currentWeekday === "Wednesday" || currentWeekday === "Friday" ? shortSchedule : timeSchedule;
+  return currentWeekday === "wednesday" || currentWeekday === "friday" ? shortSchedule : timeSchedule;
 }
 
 // Function to determine the message to display
@@ -70,7 +70,7 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
       previousClass = todayClasses[classIndex];
       nextClass = todayClasses[classIndex + 1];
       break;
-    } else if (currentWeekday === "Monday" && isBeforeSchool) {
+    } else if (currentWeekday === "monday" && isBeforeSchool) {
       // If it's Monday and before school, set nextClass to the first class of the day
       nextClass = todayClasses[0];
       break;
@@ -85,14 +85,14 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
   let lastClassFridayText = `<span id="class-subject">${lastClassFriday}</span>`;
   let nextFirstClassText = `<span id="class-subject">${nextFirstClass}</span>`;
 
-  if ((currentWeekday === "Friday" && isAfterSchool) || currentWeekday === "Saturday" || currentWeekday === "Sunday") {
+  if ((currentWeekday === "friday" && isAfterSchool) || currentWeekday === "saturday" || currentWeekday === "sunday") {
     // Condition: It's Friday after school, Saturday or Sunday
     currentStatus = messages.doneForWeek;
     moreInfo = `${messages.lastClassFridayWas.replace(
       "{lastClassFriday}",
       lastClassFridayText
     )}</br>${messages.nextClassMondayIs.replace("{nextFirstClass}", nextFirstClassText)}`;
-  } else if (currentWeekday === "Monday" && isBeforeSchool) {
+  } else if (currentWeekday === "monday" && isBeforeSchool) {
     // Condition: It's Monday before school
     currentStatus = messages.noClassesNow;
     moreInfo = `${messages.lastClassFridayLastWeekWas.replace(
@@ -133,3 +133,27 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
 
 // Load the JSON and initialize the content
 loadJSON(initializeContent);
+
+// Refresh the current status every minute
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "visible") {
+    refreshContent();
+  }
+});
+
+function refreshContent() {
+  loadJSON(initializeContent);
+}
+
+function startRefreshCycle() {
+  const now = new Date();
+  const msUntilNextMinute = (60 - now.getSeconds()) * 1000;
+
+  setTimeout(function () {
+    refreshContent();
+    setInterval(refreshContent, 60000); // Refresh every minute
+  }, msUntilNextMinute); // Wait until the start of the next minute
+}
+
+// Start the refresh cycle when the page loads
+window.onload = startRefreshCycle;
