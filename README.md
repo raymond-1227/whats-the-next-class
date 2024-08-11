@@ -2,9 +2,9 @@
 What's the next class? Stop asking me, just take a glance!
 
 ## About
-I made this project since I have been really annoyed by the school class table website, although according to the software it is being kept up-to-date, but the developer of the system didn't even try to bother making the UI/UX better but rather keeping the 90s web design look.
+I created this project as I have been really annoyed by the school's class schedule website, despite the software version indicates that it's regularly updated, the developer has made no effort to improve the UI/UX, sticking to the 90s web design instead.
 
-This is just one thing, the main reason is still the fact that class table completely changes on every new semester, meaning I would have to look at the horribly-designed school class table, especially that the text would be around 1px on phone since... like I said, they never updated the design, therefore RWD is never implemented. Also it takes too much time to find the specific class for the day, so instead, I made my own version that only displays your current/previous and next class at once.
+While their web design is terrible, the main reason is still the fact that class schedule constantly changes on every new semester, meaning I would have to use the poorly-designed school class schedule website, where the text would be around 1px on phone since they never implemented the responsive web design modern standards. That said, finding the specific class on the schedule takes too much time. So instead, I've made my own version that only displays your current, previous and the next class all at once.
 
 ## How To Use
 ### Use the Template
