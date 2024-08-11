@@ -91,21 +91,21 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
     moreInfo = `${messages.lastClassFridayWas.replace(
       "{lastClassFriday}",
       lastClassFridayText
-    )}</br>${messages.nextClassIs.replace("{nextClass}", nextFirstClassText)}`;
+    )}</br>${messages.nextClassMondayIs.replace("{nextFirstClass}", nextFirstClassText)}`;
   } else if (currentWeekday === "Monday" && isBeforeSchool) {
     // Condition: It's Monday before school
     currentStatus = messages.noClassesNow;
-    moreInfo = `${messages.lastClassFridayWas.replace(
+    moreInfo = `${messages.lastClassFridayLastWeekWas.replace(
       "{lastClassFriday}",
       lastClassFridayText
-    )}</br>${messages.nextClassIs.replace("{nextClass}", nextClassText)}`;
+    )}</br>${messages.nextClassTodayIs.replace("{nextClass}", nextClassText)}`;
   } else if (isBeforeSchool || isAfterSchool) {
     // Condition: Before school or after school
     currentStatus = messages.noClassesNow;
-    moreInfo = `${messages.lastClassWas.replace("{lastClassToday}", lastClassText)}</br>${messages.nextClassIs.replace(
-      "{nextClass}",
-      nextFirstClassText
-    )}`;
+    moreInfo = `${messages.lastClassWas.replace(
+      "{lastClassToday}",
+      lastClassText
+    )}</br>${messages.nextClassTomorrowIs.replace("{nextFirstClass}", nextFirstClassText)}`;
   } else if (previousClass == "None") {
     // Condition: During the first class
     currentStatus = messages.currentlyIn.replace("{currentClass}", currentClassText);

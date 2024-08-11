@@ -1,7 +1,22 @@
 // Define class timings and class names
 const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 const regularDaySchedule = [
-  "08:00", "08:50", "09:10", "10:00", "10:10", "11:00", "11:10", "12:00", "13:00", "13:50", "14:00", "14:50", "15:00", "15:50", "15:55", "16:45"
+  "08:00",
+  "08:50",
+  "09:10",
+  "10:00",
+  "10:10",
+  "11:00",
+  "11:10",
+  "12:00",
+  "13:00",
+  "13:50",
+  "14:00",
+  "14:50",
+  "15:00",
+  "15:50",
+  "15:55",
+  "16:45",
 ];
 const shortDaySchedule = regularDaySchedule.slice(0, -2);
 
@@ -101,7 +116,7 @@ function determineMessage() {
     currentStatus = "There are no classes for now";
     moreInfo = `It was previously ${lastClassToday}\nThe next class is ${nextFirstClass}`;
   } else if (currentClass !== "None" && !(isAfterSchool || currentClass === lastClassToday)) {
-    console.log(currentClass)
+    console.log(currentClass);
     currentStatus = `You're currently in ${currentClass}`;
     moreInfo = `It was previously ${previousClass}\nThe next class is ${nextClass}`;
   } else {

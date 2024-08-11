@@ -27,12 +27,15 @@
   "messages": {
     "doneForWeek": "本週課程已結束",
     "noClassesNow": "目前沒有課程",
-    "currentlyIn": "現在的課是 {currentClass}",
-    "onBreak": "現在是下課時間",
-    "lastClassWas": "最後一節課是 {lastClassToday}",
-    "lastClassFridayWas": "最後一節課是 {lastClassFriday}",
-    "nextClassTomorrowIs": "明天第一節課是 {nextFirstClass}",
-    "nextClassIs": "下一節課是 {nextClass}",
-    "previousClassWas": "上一節課是 {previousClass}"
+    "lastClassFridayWas": "週五最後一節課是{lastClassFriday}",
+    "lastClassFridayLastWeekWas": "上週五最後一節課是{lastClassFriday}",
+    "nextClassMondayIs": "週一第一節課是{nextFirstClass}",
+    "lastClassWas": "今天最後一節課是{lastClassToday}",
+    "nextClassTomorrowIs": "明天第一節課是{nextFirstClass}",
+    "nextClassTodayIs": "今天第一節課是{nextClass}",
+    "previousClassWas": "上一節課是{previousClass}",
+    "currentlyIn": "現在的課是{currentClass}",
+    "nextClassIs": "下一節課是{nextClass}",
+    "onBreak": "現在是下課時間"
   }
 }
