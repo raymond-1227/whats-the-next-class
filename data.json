@@ -35,6 +35,7 @@
     "nextClassTodayIs": "今天第一節課：{nextClass}",
     "previousClassWas": "上一節課：{previousClass}",
     "currentlyIn": "現在的課：{currentClass}",
+    "currentlyInLast": "現在是最後一節課：{currentClass}",
     "nextClassIs": "下一節課：{nextClass}",
     "onBreak": "現在是下課時間"
   }
