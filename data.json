@@ -18,19 +18,20 @@
     "16:45"
   ],
   "classTable": {
-    "monday": ["地球科學", "數學", "物理", "物理", "體育", "英文", "暫無", "暫無"],
-    "tuesday": ["英文寫作", "化學", "化學", "數學", "生物", "國文", "暫無", "暫無"],
-    "wednesday": ["數學", "物理", "物理", "英文", "國文", "生物", "暫無"],
-    "thursday": ["化學", "化學", "英文", "數學", "國文", "英文寫作", "暫無", "暫無"],
-    "friday": ["生物", "地球科學", "數學", "體育", "國文", "英文", "暫無"]
+    "monday": ["地球科學", "數學", "物理", "物理", "體育", "英文", "暫無", "monday_last"],
+    "tuesday": ["英文寫作", "化學", "化學", "數學", "生物", "國文", "暫無", "tuesday_last"],
+    "wednesday": ["數學", "物理", "物理", "英文", "國文", "生物", "wednesday_last"],
+    "thursday": ["化學", "化學", "英文", "數學", "國文", "英文寫作", "暫無", "thursday_last"],
+    "friday": ["生物", "地球科學", "數學", "體育", "國文", "英文", "friday_last"]
   },
   "messages": {
     "doneForWeek": "本週課程已結束",
     "noClassesNow": "目前沒有課程",
-    "lastClassFridayWas": "週五最後一節課：{lastClassFriday}",
-    "lastClassFridayLastWeekWas": "上週五最後一節課：{lastClassFriday}",
-    "nextClassMondayIs": "週一第一節課：{nextFirstClass}",
+    "lastClassFridayWas": "週五最後一節課：{lastClass}",
+    "lastClassFridayLastWeekWas": "上週五最後一節課：{lastClass}",
     "lastClassWas": "今天最後一節課：{lastClassToday}",
+    "lastClassYesterdayWas": "昨天最後一節課：{lastClass}",
+    "nextClassMondayIs": "週一第一節課：{nextFirstClass}",
     "nextClassTomorrowIs": "明天第一節課：{nextFirstClass}",
     "nextClassTodayIs": "今天第一節課：{nextClass}",
     "previousClassWas": "上一節課：{previousClass}",

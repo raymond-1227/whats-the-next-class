@@ -22,10 +22,21 @@ function initializeContent(data) {
 
   const now = new Date();
   const currentWeekday = weekdays[now.getDay()];
+  const lastWeekday = getLastWorkingDay(currentWeekday);
   const nextWeekday = getNextWorkingDay(currentWeekday);
   const currentTime = now.toTimeString().substring(0, 5);
   const todaySchedule = getTodaySchedule(currentWeekday, timeSchedule); // Pass timeSchedule here
-  determineMessage(classTable, messages, currentWeekday, nextWeekday, currentTime, todaySchedule);
+  determineMessage(classTable, messages, lastWeekday, currentWeekday, nextWeekday, currentTime, todaySchedule);
+}
+
+// Function to get the last working day
+function getLastWorkingDay(currentWeekday) {
+  const currentDayIndex = weekdays.indexOf(currentWeekday);
+  let lastDayIndex = currentDayIndex - 1;
+  if (currentDayIndex <= 1) {
+    lastDayIndex = 5; // Friday
+  }
+  return weekdays[lastDayIndex];
 }
 
 // Function to get the next working day
@@ -45,18 +56,20 @@ function getTodaySchedule(currentWeekday, timeSchedule) {
 }
 
 // Function to determine the message to display
-function determineMessage(classTable, messages, currentWeekday, nextWeekday, currentTime, todaySchedule) {
+function determineMessage(classTable, messages, lastWeekday, currentWeekday, nextWeekday, currentTime, todaySchedule) {
   let classIndex;
-  let todayClasses = classTable[currentWeekday.toLowerCase()] || [];
-  let nextFirstClass = classTable[nextWeekday.toLowerCase()]?.[0] || [];
   let currentStatus = "";
   let moreInfo = "";
   let previousClass = null;
   let currentClass = null;
   let nextClass = null;
-  let lastClassIndex = todayClasses.length - 1;
-  let lastClassToday = todayClasses[lastClassIndex];
-  let lastClassFriday = classTable["friday"][classTable["friday"].length - 1];
+  let lastClasses = classTable[lastWeekday.toLowerCase()] || [];
+  let todayClasses = classTable[currentWeekday.toLowerCase()] || [];
+  let nextFirstClass = classTable[nextWeekday.toLowerCase()]?.[0] || [];
+  let lastClassIndexToday = todayClasses.length - 1;
+  let lastClassIndex = lastClasses.length - 1;
+  let lastClassToday = todayClasses[lastClassIndexToday];
+  let lastClass = lastClasses[lastClassIndex];
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
 
@@ -71,40 +84,40 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
       previousClass = todayClasses[classIndex];
       nextClass = todayClasses[classIndex + 1];
       break;
-    } else if (currentWeekday === "monday" && isBeforeSchool) {
-      // If it's Monday and before school, set nextClass to the first class of the day
+    } else if (isBeforeSchool) {
+      // If it's before school, set nextClass to the first class of the day
       nextClass = todayClasses[0];
       break;
     }
   }
-  
+
   // Use template literals to insert variables into the strings
   let currentClassText = `<span id="class-subject">${currentClass}</span>`;
   let previousClassText = `<span id="class-subject">${previousClass}</span>`;
   let nextClassText = `<span id="class-subject">${nextClass}</span>`;
-  let lastClassText = `<span id="class-subject">${lastClassToday}</span>`;
-  let lastClassFridayText = `<span id="class-subject">${lastClassFriday}</span>`;
+  let lastClassTodayText = `<span id="class-subject">${lastClassToday}</span>`;
+  let lastClassText = `<span id="class-subject">${lastClass}</span>`;
   let nextFirstClassText = `<span id="class-subject">${nextFirstClass}</span>`;
 
-  if ((currentWeekday === "friday" && isAfterSchool) || currentWeekday === "saturday" || currentWeekday === "sunday") {
-    // Condition: It's Friday after school, Saturday or Sunday
+  if (currentWeekday === "saturday" || currentWeekday === "sunday") {
+    // Condition: It's Saturday or Sunday
     currentStatus = messages.doneForWeek;
     moreInfo = `${messages.lastClassFridayWas.replace(
       "{lastClassFriday}",
-      lastClassFridayText
+      lastClassText
+    )}</br>${messages.nextClassMondayIs.replace("{nextFirstClass}", nextFirstClassText)}`;
+  } else if (currentWeekday === "friday" && isAfterSchool) {
+    // Condition: It's Friday after school
+    currentStatus = messages.doneForWeek;
+    moreInfo = `${messages.lastClassWas.replace(
+      "{lastClassToday}",
+      lastClassTodayText
     )}</br>${messages.nextClassMondayIs.replace("{nextFirstClass}", nextFirstClassText)}`;
   } else if (currentWeekday === "monday" && isBeforeSchool) {
     // Condition: It's Monday before school
     currentStatus = messages.noClassesNow;
     moreInfo = `${messages.lastClassFridayLastWeekWas.replace(
-      "{lastClassFriday}",
-      lastClassFridayText
-    )}</br>${messages.nextClassTodayIs.replace("{nextClass}", nextClassText)}`;
-  } else if (isBeforeSchool) {
-    // Condition: Before school
-    currentStatus = messages.noClassesNow;
-    moreInfo = `${messages.lastClassWas.replace(
-      "{lastClassToday}",
+      "{lastClass}",
       lastClassText
     )}</br>${messages.nextClassTodayIs.replace("{nextClass}", nextClassText)}`;
   } else if (isAfterSchool) {
@@ -112,20 +125,27 @@ function determineMessage(classTable, messages, currentWeekday, nextWeekday, cur
     currentStatus = messages.noClassesNow;
     moreInfo = `${messages.lastClassWas.replace(
       "{lastClassToday}",
-      lastClassText
+      lastClassTodayText
     )}</br>${messages.nextClassTomorrowIs.replace("{nextFirstClass}", nextFirstClassText)}`;
+  } else if (isBeforeSchool) {
+    // Condition: Before school
+    currentStatus = messages.noClassesNow;
+    moreInfo = `${messages.lastClassYesterdayWas.replace(
+      "{lastClass}",
+      lastClassText
+    )}</br>${messages.nextClassTodayIs.replace("{nextClass}", nextClassText)}`;
   } else if (previousClass == null) {
     // Condition: During the first class
     currentStatus = messages.currentlyIn.replace("{currentClass}", currentClassText);
     moreInfo = messages.nextClassIs.replace("{nextClass}", nextClassText);
-  } else if (currentClass !== null && !(isAfterSchool || classIndex === lastClassIndex)) {
+  } else if (currentClass !== null && !(isAfterSchool || classIndex === lastClassIndexToday)) {
     // Condition: During a class that is not the last class
     currentStatus = messages.currentlyIn.replace("{currentClass}", currentClassText);
     moreInfo = `${messages.previousClassWas.replace(
       "{previousClass}",
       previousClassText
     )}</br>${messages.nextClassIs.replace("{nextClass}", nextClassText)}`;
-  } else if (classIndex === lastClassIndex) {
+  } else if (classIndex === lastClassIndexToday) {
     // Condition: During the last class
     currentStatus = messages.currentlyInLast.replace("{currentClass}", currentClassText);
     moreInfo = messages.previousClassWas.replace("{previousClass}", previousClassText);
