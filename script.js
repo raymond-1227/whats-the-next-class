@@ -103,7 +103,7 @@ function determineMessage(classTable, messages, lastWeekday, currentWeekday, nex
     // Condition: It's Saturday or Sunday
     currentStatus = messages.doneForWeek;
     moreInfo = `${messages.lastClassFridayWas.replace(
-      "{lastClassFriday}",
+      "{lastClass}",
       lastClassText
     )}</br>${messages.nextClassMondayIs.replace("{nextFirstClass}", nextFirstClassText)}`;
   } else if (currentWeekday === "friday" && isAfterSchool) {
