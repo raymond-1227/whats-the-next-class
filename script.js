@@ -21,12 +21,28 @@ function initializeContent(data) {
   const messages = data.messages;
 
   const now = new Date();
+  const currentWeek = getWeek(now);
   const currentWeekday = weekdays[now.getDay()];
   const lastWeekday = getLastWorkingDay(currentWeekday);
   const nextWeekday = getNextWorkingDay(currentWeekday);
   const currentTime = now.toTimeString().substring(0, 5);
-  const todaySchedule = getTodaySchedule(currentWeekday, timeSchedule); // Pass timeSchedule here
-  determineMessage(classTable, messages, lastWeekday, currentWeekday, nextWeekday, currentTime, todaySchedule);
+  const todaySchedule = getTodaySchedule(currentWeekday, timeSchedule);
+
+  // Update the 8th class for Monday and Tuesday
+  const isOddWeek = currentWeek % 2 !== 0;
+  classTable.monday[7] = isOddWeek ? "國文輔" : "英文輔";
+  classTable.thursday[7] = isOddWeek ? "化學輔" : "物理輔";
+
+  determineMessage(
+    classTable,
+    messages,
+    lastWeekday,
+    currentWeekday,
+    nextWeekday,
+    currentTime,
+    todaySchedule,
+    currentWeek
+  );
 }
 
 // Function to get the last working day
@@ -37,6 +53,15 @@ function getLastWorkingDay(currentWeekday) {
     lastDayIndex = 5; // Friday
   }
   return weekdays[lastDayIndex];
+}
+
+// Calculate the current week number
+function getWeek(date) {
+  var start = new Date(date.getFullYear(), 0, 0);
+  var diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+  var oneDay = 1000 * 60 * 60 * 24;
+  var day = Math.floor(diff / oneDay);
+  return Math.ceil(day / 7);
 }
 
 // Function to get the next working day
@@ -63,12 +88,13 @@ function determineMessage(classTable, messages, lastWeekday, currentWeekday, nex
   let previousClass = null;
   let currentClass = null;
   let nextClass = null;
-  let lastClasses = classTable[lastWeekday.toLowerCase()] || [];
-  let todayClasses = classTable[currentWeekday.toLowerCase()] || [];
-  let nextFirstClass = classTable[nextWeekday.toLowerCase()]?.[0] || [];
+  let lastClasses = classTable[lastWeekday] || [];
+  let todayClasses = classTable[currentWeekday] || [];
+  let nextFirstClass = classTable[nextWeekday]?.[0] || [];
   let lastClassIndexToday = todayClasses.length - 1;
   let lastClassIndex = lastClasses.length - 1;
   let lastClassToday = todayClasses[lastClassIndexToday];
+  console.log(currentWeekday);
   let lastClass = lastClasses[lastClassIndex];
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
