@@ -94,7 +94,6 @@ function determineMessage(classTable, messages, lastWeekday, currentWeekday, nex
   let lastClassIndexToday = todayClasses.length - 1;
   let lastClassIndex = lastClasses.length - 1;
   let lastClassToday = todayClasses[lastClassIndexToday];
-  console.log(currentWeekday);
   let lastClass = lastClasses[lastClassIndex];
   let isAfterSchool = currentTime >= todaySchedule[todaySchedule.length - 1];
   let isBeforeSchool = currentTime < todaySchedule[0];
