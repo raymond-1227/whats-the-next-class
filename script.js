@@ -103,7 +103,7 @@ function determineMessage(classTable, messages, lastWeekday, currentWeekday, nex
     if (currentTime >= todaySchedule[i] && currentTime < todaySchedule[i + 1]) {
       currentClass = todayClasses[classIndex];
       nextClass = todayClasses[classIndex + 1];
-      previousClass = classIndex > 0 ? todayClasses[classIndex - 1] : "None";
+      previousClass = classIndex > 0 ? todayClasses[classIndex - 1] : null;
       break;
     } else if (currentTime >= todaySchedule[i + 1] && currentTime < (todaySchedule[i + 2] || "24:00")) {
       previousClass = todayClasses[classIndex];
