@@ -1,6 +1,7 @@
 {
   "short_name": "Next Class",
   "name": "what's the next class?",
+  "description": "Simply tells you what the next class is.",
   "icons": [
     {
       "src": "icons/icon.png",
