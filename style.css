@@ -71,6 +71,12 @@ span {
   }
 }
 
+@media (display-mode: standalone) {
+  body {
+    margin-bottom: 20px;
+  }
+}
+
 @supports (-webkit-touch-callout: none) {
   /* This is for iOS Safari to render the webpage correctly */
   body {
