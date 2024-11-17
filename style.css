@@ -14,6 +14,16 @@ body {
   align-items: center;
   min-height: 100vh;
   min-height: 100dvh;
+  position: relative;
+}
+
+p {
+  position: absolute;
+  bottom: 10px; /* Adjust spacing as needed */
+  margin-top: 20px; /* Adjust as needed to control spacing */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
 
 .container {
