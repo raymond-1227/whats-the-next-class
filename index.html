@@ -16,9 +16,9 @@
 
     <!-- PWA support -->
     <link rel="manifest" href="manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes">
 
     <!-- WebClip support -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <link
@@ -412,7 +412,7 @@
     <script src="script.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("serviceworker.js");
+        navigator.serviceWorker.register("service-worker.js");
       }
     </script>
   </body>
