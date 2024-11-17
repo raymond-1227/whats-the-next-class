@@ -1,3 +1,5 @@
+// NOTE: This file is deprecated and no longer in use, but it's kept for reference.
+
 // Define class timings and class names
 const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 const regularDaySchedule = [

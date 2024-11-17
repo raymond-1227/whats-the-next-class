@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>what's the next class?</title>
     <link rel="icon" type="image/png" href="icons/favicon.png" />
+    <link rel="icon" type="image/png" href="icons/favicon-light.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" href="icons/favicon-dark.png" media="(prefers-color-scheme: dark)" />
     <link rel="stylesheet" type="text/css" href="style.css" />
 
     <!-- Social sharing -->
@@ -12,12 +14,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rhsu.cc/whats-the-next-class" />
 
+    <!-- PWA support -->
+    <link rel="manifest" href="manifest.json" />
+
     <!-- WebClip support -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Next Class" />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
-
   </head>
   <body>
     <div class="container">
