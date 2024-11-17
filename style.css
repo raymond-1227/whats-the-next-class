@@ -73,7 +73,7 @@ span {
 
 @media (display-mode: standalone) {
   body {
-    margin-bottom: 20px;
+    margin-top: -50px;
   }
 }
 
