@@ -30,8 +30,8 @@ function initializeContent(data) {
 
   // Update the 8th class for Monday and Tuesday
   const isOddWeek = currentWeek % 2 !== 0;
-  classTable.monday[7] = isOddWeek ? "國文輔" : "英文輔";
-  classTable.thursday[7] = isOddWeek ? "化學輔" : "物理輔";
+  classTable.monday[7] = isOddWeek ? "英文輔" : "國文輔";
+  classTable.thursday[7] = isOddWeek ? "物理輔" : "化學輔";
 
   determineMessage(
     classTable,
