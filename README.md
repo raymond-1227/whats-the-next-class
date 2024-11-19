@@ -6,6 +6,11 @@ I created this project as I have been really annoyed by the school's class sched
 
 While their web design is terrible, the main reason is still the fact that class schedule constantly changes on every new semester, meaning I would have to use the poorly-designed school class schedule website, where the text would be around 1px on phone since they never implemented the responsive web design modern standards. That said, finding the specific class on the schedule takes too much time. So instead, I've made my own version that only displays your current, previous and the next class all at once.
 
+## Features
+- Displays the current, previous and the next class
+- Support mainly for weekdays only (You can modify the script to support weekends as well)
+- Support for Progressive Web App (PWA)
+
 ## How To Use
 ### Use the Template
 The template file is `data-example.json` for English users, you can modify the text into your own language, then rename it to `data.json` for the script to fetch data from.
@@ -16,3 +21,7 @@ const timeSchedule = [ 08:00, 08:50, 09:00, 09:50, "... etc" ]
 ```
 ### Import your Class Table
 Go to `data.json` and modify the class names for each day **in the exact order**.
+### Testing / Development
+**You must run the website as a server, due to having to fetch JSON files could trigger CORS errors.** You can use the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension on Visual Studio Code. Click on `Go Live` on the bottom right corner of the editor to start the server, and click it again to stop the server.
+### Production
+You can host the website on GitHub Pages, Netlify, Vercel, etc.
