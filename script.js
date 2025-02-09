@@ -29,9 +29,9 @@ function initializeContent(data) {
   const todaySchedule = getTodaySchedule(currentWeekday, timeSchedule);
 
   // Update the 8th class for Monday and Tuesday
-  const isOddWeek = currentWeek % 2 !== 0;
-  classTable.monday[7] = isOddWeek ? "英文輔" : "國文輔";
-  classTable.thursday[7] = isOddWeek ? "物理輔" : "化學輔";
+  // const isOddWeek = currentWeek % 2 !== 0;
+  // classTable.monday[7] = isOddWeek ? "英文輔" : "國文輔";
+  // classTable.thursday[7] = isOddWeek ? "物理輔" : "化學輔";
 
   determineMessage(
     classTable,
